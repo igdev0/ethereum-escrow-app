@@ -3,6 +3,7 @@ app/generated
 app/build-info
 app/contracts
 cache
+prisma/n.
 prisma/database
 # dependencies
 /node_modules
