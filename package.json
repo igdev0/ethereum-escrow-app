@@ -23,6 +23,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "hardhat": "^2.22.19",
+    "prisma": "^6.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
