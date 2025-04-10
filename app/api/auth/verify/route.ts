@@ -1,9 +1,7 @@
 import {verifyMessage} from 'ethers';
-import {serialize} from 'cookie';
-import {NextApiResponse} from 'next';
 import {NextResponse} from 'next/server';
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
   const {message, signature, address} = await req.json();
 
   if (!message || !signature || !address) {
@@ -18,16 +16,9 @@ export async function POST(req: Request, res: NextApiResponse) {
       return NextResponse.json({message: "Verification failed", status: 401});
     }
 
-    // Auth success! Set session cookie (simplified, no JWT)
-    const cookie = serialize('session', address, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24, // 1 day
-    });
+    const maxAge = 60 * 60 * 24;
     const rs = NextResponse.json({authenticated: true, address, message: "Success"});
-    rs.cookies.set("Set-Cookie", cookie);
+    rs.cookies.set("session", address, {httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: 'lax', path: '/', maxAge});
     return rs;
   } catch (err) {
     console.error(err);

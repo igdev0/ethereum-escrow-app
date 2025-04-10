@@ -41,6 +41,11 @@ export default function useWallet() {
     setAddress(address);
   };
 
+  const logout = async () => {
+    await fetch("/api/auth/logout");
+    setAuthenticated(false);
+  }
+
   const getUser = async () => {
     const response = await fetch("/api/auth/user");
     const data = await response.json();
@@ -54,5 +59,5 @@ export default function useWallet() {
   const disconnect = async () => {
     setSigner(null);
   };
-  return {signer, authenticated, provider, disconnect, authenticate};
+  return {signer, authenticated, provider, disconnect, authenticate, logout};
 }
