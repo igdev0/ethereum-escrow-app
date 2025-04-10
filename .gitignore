@@ -2,6 +2,7 @@
 app/build-info
 app/contracts
 cache
+prisma/database
 # dependencies
 /node_modules
 /.pnp
