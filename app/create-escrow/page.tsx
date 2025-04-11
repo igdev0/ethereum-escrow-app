@@ -3,13 +3,10 @@ import "./style.css";
 import Navbar from '@/app/components/navbar';
 import {useFormStatus} from 'react-dom';
 import useWallet from '@/app/hooks/use-wallet';
-import {ethers, keccak256, resolveProperties, Signature, Transaction} from 'ethers';
+import {ethers} from 'ethers';
 import {abi, bytecode} from '../generated/contracts/Escrow.sol/Escrow.json';
 import {useState} from 'react';
-import {BigNumber} from '@ethersproject/bignumber';
 import {storeEscrowContract} from '@/app/actions';
-import {arrayify, joinSignature} from '@ethersproject/bytes';
-import * as net from 'node:net';
 
 export default function CreateEscrow() {
   const status = useFormStatus();
@@ -40,7 +37,7 @@ export default function CreateEscrow() {
         const contractFactory = new ethers.ContractFactory(abi, bytecode);
         const contractDeployTransaction = await contractFactory.getDeployTransaction(arbiter, beneficiary, {value: ethers.parseUnits(amount!.toString(), 'ether')});
         const populatedTx = await signer.populateTransaction(contractDeployTransaction);
-        const tx=  await signer.sendTransaction(populatedTx);
+        const tx = await signer.sendTransaction(populatedTx);
         const receipt = await tx.wait();
         // const network = await provider?.getNetwork();
 
@@ -62,7 +59,7 @@ export default function CreateEscrow() {
 
         await storeEscrowContract({
           arbiter: arbiter!.toString(),
-          address: receipt!.contractAddress??"",
+          address: receipt!.contractAddress ?? "",
           depositor: signer.address,
           beneficiary: beneficiary.toString(),
           isMinted: tx.isMined(),
