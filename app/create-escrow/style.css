@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+.input {
+    @apply shadow-2xl;
+}
+
+@layer components {
+    form {
+        max-width: 700px;
+        @apply mx-auto mt-5;
+        fieldset {
+            @apply mt-2;
+            @apply p-4 bg-white shadow-sm rounded-sm;
+        }
+        label {
+            @apply flex flex-col w-full;
+            span {
+                @apply font-bold;
+            }
+
+            input {
+                @apply  p-2 outline-none;
+            }
+        }
+
+        button {
+            @apply mt-4 block w-full;
+        }
+    }
+}
