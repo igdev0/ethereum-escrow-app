@@ -15,7 +15,7 @@ contract Escrow {
         require(success);
     }
 
-    function approve() external payable {
+    function approve() external {
         require(!approved, "This Escrow is been approved already!");
         require(msg.sender == arbiter, "You must be the arbiter in order to approve!");
         require(msg.sender != beneficiary, "You cannot be the arbiter and beneficiary at the same time!");
