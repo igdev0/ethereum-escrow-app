@@ -46,7 +46,7 @@ export default function useWallet() {
   const logout = async () => {
     await fetch("/api/auth/logout");
     setAuthenticated(false);
-    await router.push("/");
+    router.push("/");
   }
 
   const getUser = async () => {
