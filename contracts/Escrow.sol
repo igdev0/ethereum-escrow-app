@@ -7,10 +7,12 @@ contract Escrow {
     address public depositor;
     event Approved(uint);
     bool public approved;
-    constructor(address _arbiter, address _beneficiary) {
+    constructor(address _arbiter, address _beneficiary) payable {
         arbiter = _arbiter;
         beneficiary = _beneficiary;
         depositor = msg.sender;
+        (bool success, ) = address(this).call{value: msg.value}("");
+        require(success);
     }
 
     function approve() external payable {
