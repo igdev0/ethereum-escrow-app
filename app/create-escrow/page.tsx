@@ -3,9 +3,10 @@ import "./style.css";
 import Navbar from '@/app/components/navbar';
 import {useFormStatus} from 'react-dom';
 import useWallet from '@/app/hooks/use-wallet';
-import {ethers} from 'ethers';
+import {ethers, Transaction} from 'ethers';
 import {abi, bytecode} from '../generated/contracts/Escrow.sol/Escrow.json';
 import {useState} from 'react';
+import {BigNumber} from '@ethersproject/bignumber';
 import {storeEscrowContract} from '@/app/actions';
 
 export default function CreateEscrow() {
@@ -13,7 +14,7 @@ export default function CreateEscrow() {
   const {provider, address} = useWallet();
   const [error, setError] = useState<string | null>(null);
   const handleSubmit = async (form: FormData) => {
-    const signer = await provider?.getSigner(address ?? undefined);
+    const signer = await provider?.getSigner();
     const amount = form.get('amount');
     const arbiter = form.get("arbiter");
     const beneficiary = form.get("beneficiary");
@@ -32,17 +33,20 @@ export default function CreateEscrow() {
       return setError("The beneficiary cannot be the same as depositor");
     }
 
-    const contractFactory = new ethers.ContractFactory(abi, bytecode);
     if (signer) {
       try {
-        const res = await contractFactory.connect(signer).deploy(arbiter, beneficiary, {value: ethers.parseUnits(amount!.toString(), 'ether')});
-        const contractAddress = await res.getAddress();
+        const contractFactory = new ethers.ContractFactory(abi, bytecode);
+        const contractDeployTransaction = await contractFactory.getDeployTransaction(arbiter, beneficiary, {value: ethers.parseUnits(amount!.toString(), 'ether')});
+        const populatedTx = await signer.populateTransaction(contractDeployTransaction);
+        const tx=  await signer.sendTransaction(populatedTx);
+        const receipt = await tx.wait();
         await storeEscrowContract({
           arbiter: arbiter!.toString(),
-          address: contractAddress,
+          address: receipt!.contractAddress??"",
           depositor: signer.address,
           beneficiary: beneficiary.toString(),
-          signature: "",
+          isMinted: tx.isMined(),
+          isApproved: false,
         });
       } catch (err) {
         setError((err as Error).message);
