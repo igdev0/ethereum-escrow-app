@@ -59,5 +59,5 @@ export default function useWallet() {
   const disconnect = async () => {
     setSigner(null);
   };
-  return {signer, authenticated, provider, disconnect, authenticate, logout};
+  return {signer, address, authenticated, provider, disconnect, authenticate, logout};
 }

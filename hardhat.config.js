@@ -2,6 +2,6 @@
 module.exports = {
   solidity: "0.8.28",
   paths: {
-    artifacts: "app"
+    artifacts: "app/generated"
   }
 };
