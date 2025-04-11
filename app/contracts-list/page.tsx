@@ -3,7 +3,7 @@ import Logout from '@/app/components/logout';
 
 export default function ContractsPage() {
   return (
-      <div className="block">
+      <div className="container mx-auto">
         <Logout/>
         <ListContracts/>
       </div>
