@@ -24,6 +24,17 @@ export async function storeEscrowContract(input: StoreEscrowContractInput) {
   });
 }
 
+export async function updateContract(address:string, isApproved:boolean) {
+  return db.contracts.update({
+    where: {
+      address
+    },
+    data: {
+      isApproved
+    }
+  })
+}
+
 export async function getContracts() {
   const reqCookies = await cookies();
   const data = reqCookies.get("session");

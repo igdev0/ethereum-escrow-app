@@ -3,11 +3,13 @@ import "./style.css";
 import Navbar from '@/app/components/navbar';
 import {useFormStatus} from 'react-dom';
 import useWallet from '@/app/hooks/use-wallet';
-import {ethers, Transaction} from 'ethers';
+import {ethers, keccak256, resolveProperties, Signature, Transaction} from 'ethers';
 import {abi, bytecode} from '../generated/contracts/Escrow.sol/Escrow.json';
 import {useState} from 'react';
 import {BigNumber} from '@ethersproject/bignumber';
 import {storeEscrowContract} from '@/app/actions';
+import {arrayify, joinSignature} from '@ethersproject/bytes';
+import * as net from 'node:net';
 
 export default function CreateEscrow() {
   const status = useFormStatus();
@@ -40,6 +42,24 @@ export default function CreateEscrow() {
         const populatedTx = await signer.populateTransaction(contractDeployTransaction);
         const tx=  await signer.sendTransaction(populatedTx);
         const receipt = await tx.wait();
+        // const network = await provider?.getNetwork();
+
+        // const unsignedTx = new ethers.Transaction();
+        // unsignedTx.nonce = tx.nonce;
+        // unsignedTx.gasLimit = tx.gasLimit;
+        // unsignedTx.maxPriorityFeePerGas = tx.maxPriorityFeePerGas;
+        // unsignedTx.maxFeePerGas = tx.maxFeePerGas;
+        // unsignedTx.value = tx.value;
+        // unsignedTx.data = tx.data;
+        // unsignedTx.chainId = network!.chainId;
+        // unsignedTx.type = tx.type;
+        // unsignedTx.accessList = tx.accessList;
+
+        // const digest = unsignedTx.unsignedHash;
+        // const recoveredAddress = ethers.recoverAddress(digest, Signature.from(tx.signature));
+
+        // console.log(recoveredAddress === signer.address);
+
         await storeEscrowContract({
           arbiter: arbiter!.toString(),
           address: receipt!.contractAddress??"",
@@ -48,6 +68,8 @@ export default function CreateEscrow() {
           isMinted: tx.isMined(),
           isApproved: false,
         });
+
+
       } catch (err) {
         setError((err as Error).message);
         console.error(err);
@@ -63,7 +85,7 @@ export default function CreateEscrow() {
             <label htmlFor="arbiter">
               <span>Arbiter:</span>
               <input className="input" name="arbiter" placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"
-                     defaultValue="0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"/>
+                     defaultValue="0xdD2FD4581271e230360230F9337D5c0430Bf44C0"/>
             </label>
           </fieldset>
           <fieldset>
