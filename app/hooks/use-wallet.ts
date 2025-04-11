@@ -1,6 +1,7 @@
 "use client";
 import {useEffect, useState} from 'react';
 import {BrowserProvider, ethers, JsonRpcSigner} from 'ethers';
+import {useRouter} from 'next/navigation';
 
 
 export default function useWallet() {
@@ -8,6 +9,7 @@ export default function useWallet() {
   const [authenticated, setAuthenticated] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
   const [provider, setProvider] = useState<BrowserProvider | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -44,6 +46,7 @@ export default function useWallet() {
   const logout = async () => {
     await fetch("/api/auth/logout");
     setAuthenticated(false);
+    await router.push("/");
   }
 
   const getUser = async () => {
