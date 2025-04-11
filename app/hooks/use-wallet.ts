@@ -53,6 +53,7 @@ export default function useWallet() {
     const response = await fetch("/api/auth/user");
     const data = await response.json();
     setAuthenticated(data.authenticated);
+    setAddress(data.address);
   }
 
   useEffect(() => {
