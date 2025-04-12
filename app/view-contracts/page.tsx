@@ -1,15 +1,27 @@
-import ListContracts from '@/app/components/list-contracts';
+"use client";
+import ListContracts, {ContractDataType} from '@/app/components/list-contracts';
 import Navbar from '@/app/components/navbar';
 import {getContracts} from '@/app/actions';
-import {use} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+
 
 export default function ContractsPage() {
-  const contracts = use(getContracts());
+  const [contracts, set] = useState<ContractDataType[]>([]);
+
+  const onApprove = useCallback(async () => {
+    set(await getContracts());
+  }, []);
+
+  useEffect(() => {
+    getContracts().then(set);
+  }, []);
 
   return (
       <div className="container mx-auto">
         <Navbar/>
-        <ListContracts contracts={contracts}/>
+        {
+          !contracts ? <h1>Loading ...</h1> : <ListContracts contracts={contracts} onApprove={onApprove}/>
+        }
       </div>
   );
 }

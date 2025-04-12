@@ -18,9 +18,10 @@ export interface ContractDataType {
 
 interface ListContractsProps extends PropsWithChildren {
   contracts: ContractDataType[];
+  onApprove: () => void
 }
 
-export default async function ListContracts({contracts}: ListContractsProps) {
+export default function ListContracts({contracts, onApprove}: ListContractsProps) {
 
   return (
       <div>
@@ -60,6 +61,7 @@ export default async function ListContracts({contracts}: ListContractsProps) {
                           </td>
                           <td className="p-2">
                             <Approve contractAddress={item.address as string} arbiter={item.arbiter as string}
+                                     onApprove={onApprove}
                                      isApproved={item.isApproved}/>
                           </td>
                         </tr>

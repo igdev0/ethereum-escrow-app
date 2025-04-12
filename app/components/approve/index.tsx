@@ -6,10 +6,11 @@ import {ethers} from 'ethers';
 import {updateContract} from '@/app/actions';
 import useInterface from '@/app/hooks/use-interface';
 
-export default function Approve({arbiter, contractAddress, isApproved}: {
+export default function Approve({arbiter, contractAddress, isApproved, onApprove}: {
   arbiter: string,
   contractAddress: string,
-  isApproved: boolean
+  isApproved: boolean,
+  onApprove: () => void
 }) {
   const wallet = useWallet();
   const iface = useInterface();
@@ -27,12 +28,10 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
 
   useEffect(() => {
     provider?.on({address: contractAddress, topics: [ethers.id("Approved(uint256)")]}, async (log) => {
-      // console.log("Escrow approved with amount:", ethers.formatEther(args));
-      const parsed =iface.parseLog(log);
-      console.log(parsed)
       await updateContract(contractAddress, true);
+      onApprove();
     });
-  }, [provider, contract, iface, contractAddress]);
+  }, [provider, onApprove, contract, iface, contractAddress]);
 
   if (wallet.address !== arbiter || isApproved) {
     return <span>Approved ✅</span>;
