@@ -4,7 +4,7 @@ import useContract from '@/app/hooks/use-contract';
 import {useEffect} from 'react';
 import {ethers} from 'ethers';
 import useInterface from '@/app/hooks/use-interface';
-import {useStore} from '@/app/store';
+import {useContractsStore} from '@/app/stores/contracts';
 
 export default function Approve({arbiter, contractAddress, isApproved}: {
   arbiter: string,
@@ -15,7 +15,7 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
   const iface = useInterface();
   const {provider} = useWallet();
   const contract = useContract(contractAddress);
-  const updateContract = useStore().updateContract;
+  const updateContract = useContractsStore().updateContract;
 
   const handleApprove = async () => {
     const signer = await provider?.getSigner();

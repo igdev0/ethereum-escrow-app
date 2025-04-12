@@ -13,14 +13,14 @@ export interface ContractDataType {
   updated_at: Date | null;
 }
 
-export interface Store {
+export interface Contracts {
   contracts: ContractDataType[],
   getContracts: () => Promise<void>,
   updateContract: (address: string, isApproved: boolean) => Promise<void>,
   createContract: (input: StoreEscrowContractInput) => Promise<void>,
 }
 
-export const useStore = create<Store>((setState, getState) => {
+export const useContractsStore = create<Contracts>((setState, getState) => {
   return {
     contracts: [],
     async createContract(input) {

@@ -2,10 +2,10 @@ import Address from '@/app/components/address';
 import Approve from '@/app/components/approve';
 import Link from 'next/link';
 import {ethers} from 'ethers';
-import {useStore} from '@/app/store';
+import {useContractsStore} from '@/app/stores/contracts';
 
 export default function ListContracts() {
-  const contracts = useStore().contracts;
+  const contracts = useContractsStore().contracts;
 
   return (
       <div>
