@@ -7,6 +7,7 @@ export interface StoreEscrowContractInput {
   address: string,
   depositor: string,
   arbiter: string,
+  value: number,
   isApproved: boolean,
   isMinted: boolean,
 }
@@ -19,7 +20,7 @@ export async function storeEscrowContract(input: StoreEscrowContractInput) {
       depositor: input.depositor.toLowerCase(),
       arbiter: input.arbiter.toLowerCase(),
       isApproved: input.isApproved,
-      isMinted: input.isMinted,
+      value: input.value,
     }
   });
 }

@@ -45,6 +45,7 @@ export default function CreateEscrow() {
           address: receipt!.contractAddress??"",
           depositor: signer.address,
           beneficiary: beneficiary.toString(),
+          value: Number(tx.value),
           isMinted: false,
           isApproved: false,
         });

@@ -2,13 +2,15 @@ import {PropsWithChildren} from 'react';
 import Address from '@/app/components/address';
 import Approve from '@/app/components/approve';
 import Link from 'next/link';
+import {ethers} from 'ethers';
 
-interface ContractDataType {
+export interface ContractDataType {
   id: string;
   address: string | null;
   arbiter: string | null;
   beneficiary: string | null;
   depositor: string | null;
+  value: number;
   isApproved: boolean;
   created_at: Date | null;
   updated_at: Date | null;
@@ -33,6 +35,8 @@ export default async function ListContracts({contracts}: ListContractsProps) {
                     <td className="font-bold p-2">Beneficiary</td>
                     <td className="font-bold p-2">Depositor</td>
                     <td className="font-bold p-2">Arbiter</td>
+                    <td className="font-bold p-2">Value</td>
+                    <td className="font-bold p-2"></td>
                   </tr>
                   </thead>
                   <tbody>
@@ -50,6 +54,9 @@ export default async function ListContracts({contracts}: ListContractsProps) {
                           </td>
                           <td className="p-2">
                             <Address address={item.arbiter as string}/>
+                          </td>
+                          <td className="p-2">
+                            <span>{ethers.formatEther(`${Number(item.value)}`)} ETH</span>
                           </td>
                           <td className="p-2">
                             <Approve contractAddress={item.address as string} arbiter={item.arbiter as string}

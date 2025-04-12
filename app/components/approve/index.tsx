@@ -35,7 +35,7 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
   }, [provider, contract, iface, contractAddress]);
 
   if (wallet.address !== arbiter || isApproved) {
-    return null;
+    return <span>Approved ✅</span>;
   }
 
   return (

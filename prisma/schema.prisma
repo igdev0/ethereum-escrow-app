@@ -20,7 +20,7 @@ model Contracts {
   arbiter     String
   beneficiary String
   depositor   String
-  isMinted    Boolean
+  value       BigInt
   isApproved  Boolean
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt()
