@@ -5,7 +5,7 @@ import {redirect} from 'next/navigation';
 export default function Home() {
   const {authenticate, authenticated} = useWallet();
   if (authenticated) {
-    redirect("/contracts-list");
+    redirect("/view-contracts");
   }
   return (
       <div className="flex justify-center items-center w-full min-h-full h-screen">
