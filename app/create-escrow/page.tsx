@@ -16,6 +16,7 @@ export default function CreateEscrow() {
   const provider = useProvider();
   const iface = useInterface();
   const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (form: FormData) => {
     const signer = await provider?.getSigner();
     const amount = form.get('amount');
