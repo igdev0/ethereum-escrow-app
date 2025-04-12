@@ -1,5 +1,10 @@
 import {create} from 'zustand/react';
-import {getContracts, storeEscrowContract, StoreEscrowContractInput, updateContract} from '@/app/actions';
+import {
+  approveEscrow,
+  getContracts,
+  storeEscrowContract,
+  StoreEscrowContractInput,
+} from '@/app/actions';
 
 export interface ContractDataType {
   id: string;
@@ -7,7 +12,7 @@ export interface ContractDataType {
   arbiter: string | null;
   beneficiary: string | null;
   depositor: string | null;
-  value: bigint;
+  value: string;
   isApproved: boolean;
   created_at: Date | null;
   updated_at: Date | null;
@@ -31,12 +36,12 @@ export const useContractsStore = create<Contracts>((setState, getState) => {
         contracts
       });
     },
-    async updateContract(address, isApproved) {
-      await updateContract(address, isApproved);
+    async updateContract(address) {
+      await approveEscrow(address);
       setState({
         contracts: getState().contracts.map(item => ({
           ...item,
-          isApproved: item.address === address ? isApproved : item.isApproved
+          isApproved: item.address === address ? true : item.isApproved
         }))
       });
     },

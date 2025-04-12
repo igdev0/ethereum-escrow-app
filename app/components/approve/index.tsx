@@ -28,11 +28,16 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
   useEffect(() => {
     provider?.on({address: contractAddress, topics: [ethers.id("Approved(uint256)")]}, async (log) => {
       await updateContract(contractAddress, true);
+      console.log(log)
     });
   }, [provider, updateContract, contractAddress]);
 
-  if (walletAddress !== arbiter || isApproved) {
+  if (walletAddress !== arbiter && isApproved) {
     return <span>Approved ✅</span>;
+  }
+
+  if(walletAddress !== arbiter && !isApproved) {
+    return <span>Pending approval ⏰</span>
   }
 
   return (

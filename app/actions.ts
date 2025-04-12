@@ -7,7 +7,7 @@ export interface StoreEscrowContractInput {
   address: string,
   depositor: string,
   arbiter: string,
-  value: number,
+  value: string,
   isApproved: boolean,
   isMinted: boolean,
 }
@@ -25,13 +25,14 @@ export async function storeEscrowContract(input: StoreEscrowContractInput) {
   });
 }
 
-export async function updateContract(address:string, isApproved:boolean) {
+export async function approveEscrow(address:string) {
+  console.log(`Approving: ${address}`)
   return db.contracts.update({
     where: {
       address
     },
     data: {
-      isApproved
+      isApproved: true
     }
   })
 }
