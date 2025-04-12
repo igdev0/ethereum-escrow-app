@@ -1,12 +1,14 @@
 import {create} from 'zustand/react';
 import {BrowserProvider} from 'ethers';
 import {useEffect} from 'react';
+import {router} from 'next/client';
 
 interface AppStore {
   address: string | null,
   isAuthenticated: boolean,
   initialized: boolean,
   authenticate: (provider: BrowserProvider) => Promise<void>,
+  logout: () => Promise<void>,
   init: () => Promise<void>
 }
 
@@ -47,19 +49,26 @@ const useCreateAppStore = create<AppStore>((setState) => {
         isAuthenticated: data.authenticated,
         initialized: true,
       });
+    },
+    async logout() {
+      await fetch("/api/auth/logout");
+      setState({
+        isAuthenticated: false,
+      });
+      await router.push(new URL("/"));
     }
   };
-})
+});
 
 export const useAppStore = () => {
   const zustandStore = useCreateAppStore();
 
   useEffect(() => {
     (async () => {
-      if(!zustandStore.initialized) {
+      if (!zustandStore.initialized) {
         await zustandStore.init();
       }
-    })()
+    })();
   }, [zustandStore]);
 
   return zustandStore;

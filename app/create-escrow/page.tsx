@@ -2,16 +2,18 @@
 import "./style.css";
 import Navbar from '@/app/components/navbar';
 import {useFormStatus} from 'react-dom';
-import useWallet from '@/app/hooks/use-wallet';
 import {ethers} from 'ethers';
 import {abi, bytecode} from '../generated/contracts/Escrow.sol/Escrow.json';
 import {useState} from 'react';
 import {storeEscrowContract} from '@/app/actions';
 import useInterface from '@/app/hooks/use-interface';
+import useProvider from '@/app/hooks/use-provider';
+import {useAppStore} from '@/app/stores/app';
 
 export default function CreateEscrow() {
   const status = useFormStatus();
-  const {provider, address} = useWallet();
+  const address = useAppStore().address;
+  const provider = useProvider();
   const iface = useInterface();
   const [error, setError] = useState<string | null>(null);
   const handleSubmit = async (form: FormData) => {

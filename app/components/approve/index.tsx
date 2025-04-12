@@ -1,19 +1,18 @@
 "use client";
-import useWallet from '@/app/hooks/use-wallet';
 import useContract from '@/app/hooks/use-contract';
 import {useEffect} from 'react';
 import {ethers} from 'ethers';
-import useInterface from '@/app/hooks/use-interface';
 import {useContractsStore} from '@/app/stores/contracts';
+import useProvider from '@/app/hooks/use-provider';
+import {useAppStore} from '@/app/stores/app';
 
 export default function Approve({arbiter, contractAddress, isApproved}: {
   arbiter: string,
   contractAddress: string,
   isApproved: boolean,
 }) {
-  const wallet = useWallet();
-  const iface = useInterface();
-  const {provider} = useWallet();
+  const walletAddress = useAppStore().address;
+  const provider = useProvider();
   const contract = useContract(contractAddress);
   const updateContract = useContractsStore().updateContract;
 
@@ -30,9 +29,9 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
     provider?.on({address: contractAddress, topics: [ethers.id("Approved(uint256)")]}, async (log) => {
       await updateContract(contractAddress, true);
     });
-  }, [provider, contract, iface, contractAddress]);
+  }, [provider, updateContract, contractAddress]);
 
-  if (wallet.address !== arbiter || isApproved) {
+  if (walletAddress !== arbiter || isApproved) {
     return <span>Approved ✅</span>;
   }
 

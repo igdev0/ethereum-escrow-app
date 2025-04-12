@@ -1,9 +1,9 @@
 "use client";
-import useWallet from '@/app/hooks/use-wallet';
+import {useAppStore} from '@/app/stores/app';
 
 export default function Logout() {
-  const {logout} = useWallet();
+  const {logout} = useAppStore();
   return (
       <button className="button" onClick={logout}>Logout</button>
-  )
+  );
 }
