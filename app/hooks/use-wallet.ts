@@ -16,9 +16,6 @@ export default function useWallet() {
     // @ts-expect-error
     const provider = new ethers.BrowserProvider(window.ethereum);
     setProvider(provider);
-    (async () => {
-      provider._start();
-    })()
   }, []);
 
   const authenticate = async () => {
