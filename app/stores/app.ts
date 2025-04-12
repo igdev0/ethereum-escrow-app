@@ -1,7 +1,7 @@
 import {create} from 'zustand/react';
 import {BrowserProvider} from 'ethers';
 import {useEffect} from 'react';
-import {router} from 'next/client';
+import {redirect} from 'next/navigation';
 
 interface AppStore {
   address: string | null,
@@ -55,7 +55,7 @@ const useCreateAppStore = create<AppStore>((setState) => {
       setState({
         isAuthenticated: false,
       });
-      await router.push(new URL("/"));
+      redirect("/")
     }
   };
 });
