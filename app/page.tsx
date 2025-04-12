@@ -5,7 +5,14 @@ import useProvider from '@/app/hooks/use-provider';
 
 export default function Home() {
   const provider = useProvider();
-  const {isAuthenticated, authenticate} = useAppStore();
+  const {isAuthenticated, authenticate, initialized} = useAppStore();
+  if(!initialized) {
+    return (
+        <div className="w-full h-screen flex justify-center items-center">
+          <h1>Initializing ...</h1>
+        </div>
+    )
+  }
   if (isAuthenticated) {
     redirect("/view-contracts");
   }
