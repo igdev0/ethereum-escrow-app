@@ -10,7 +10,6 @@ interface ContractDataType {
   beneficiary: string | null;
   depositor: string | null;
   isApproved: boolean;
-  isDeployed: boolean;
   created_at: Date | null;
   updated_at: Date | null;
 }
