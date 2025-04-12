@@ -10,7 +10,7 @@ export interface ContractDataType {
   arbiter: string | null;
   beneficiary: string | null;
   depositor: string | null;
-  value: number;
+  value: bigint;
   isApproved: boolean;
   created_at: Date | null;
   updated_at: Date | null;
