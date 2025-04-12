@@ -1,29 +1,23 @@
 "use client";
 import {useEffect, useState} from 'react';
-import {BrowserProvider, ethers, JsonRpcSigner} from 'ethers';
+import {JsonRpcSigner} from 'ethers';
 import {useRouter} from 'next/navigation';
+import useProvider from '@/app/hooks/use-provider';
 
 
 export default function useWallet() {
   const [signer, setSigner] = useState<JsonRpcSigner | null>();
   const [authenticated, setAuthenticated] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
-  const [provider, setProvider] = useState<BrowserProvider | null>(null);
+  const provider = useProvider();
   const router = useRouter();
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    setProvider(provider);
-  }, []);
-
   const authenticate = async () => {
-    const accounts = await provider?.send("eth_requestAccounts",[]);
+    const accounts = await provider?.send("eth_requestAccounts", []);
     const address = accounts[0];
     const nonce = Math.random() * Math.pow(10, 81);
     const message = `Signing in with account nonce: ${nonce}`;
-    const msg =  `0x${Buffer.from(message, "utf8").toString("hex")}`;
+    const msg = `0x${Buffer.from(message, "utf8").toString("hex")}`;
     const signature: string = await provider?.send("personal_sign", [msg, address]);
 
     const response = await fetch("/api/auth/verify", {
@@ -34,7 +28,7 @@ export default function useWallet() {
         address,
         nonce
       })
-    })
+    });
 
 
     const data = await response.json();
@@ -46,14 +40,14 @@ export default function useWallet() {
     await fetch("/api/auth/logout");
     setAuthenticated(false);
     router.push("/");
-  }
+  };
 
   const getUser = async () => {
     const response = await fetch("/api/auth/user");
     const data = await response.json();
     setAuthenticated(data.authenticated);
     setAddress(data.address);
-  }
+  };
 
   useEffect(() => {
     getUser();
