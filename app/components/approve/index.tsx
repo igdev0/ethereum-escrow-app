@@ -14,7 +14,7 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
   const walletAddress = useAppStore().address;
   const provider = useProvider();
   const contract = useContract(contractAddress);
-  const updateContract = useContractsStore().updateContract;
+  const approveEscrow = useContractsStore().approveEscrow;
 
   const handleApprove = async () => {
     const signer = await provider?.getSigner();
@@ -27,12 +27,11 @@ export default function Approve({arbiter, contractAddress, isApproved}: {
 
   useEffect(() => {
     provider?.on({address: contractAddress, topics: [ethers.id("Approved(uint256)")]}, async (log) => {
-      await updateContract(contractAddress, true);
-      console.log(log)
+      await approveEscrow(contractAddress);
     });
-  }, [provider, updateContract, contractAddress]);
+  }, [provider, approveEscrow, contractAddress]);
 
-  if (walletAddress !== arbiter && isApproved) {
+  if (isApproved) {
     return <span>Approved ✅</span>;
   }
 

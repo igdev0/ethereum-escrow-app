@@ -21,7 +21,7 @@ export interface ContractDataType {
 export interface Contracts {
   contracts: ContractDataType[],
   getContracts: () => Promise<void>,
-  updateContract: (address: string, isApproved: boolean) => Promise<void>,
+  approveEscrow: (address: string) => Promise<void>,
   createContract: (input: StoreEscrowContractInput) => Promise<void>,
 }
 
@@ -36,7 +36,7 @@ export const useContractsStore = create<Contracts>((setState, getState) => {
         contracts
       });
     },
-    async updateContract(address) {
+    async approveEscrow(address) {
       await approveEscrow(address);
       setState({
         contracts: getState().contracts.map(item => ({

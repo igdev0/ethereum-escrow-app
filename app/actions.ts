@@ -26,7 +26,6 @@ export async function storeEscrowContract(input: StoreEscrowContractInput) {
 }
 
 export async function approveEscrow(address:string) {
-  console.log(`Approving: ${address}`)
   return db.contracts.update({
     where: {
       address
