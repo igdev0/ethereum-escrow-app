@@ -12,6 +12,8 @@ export default function useWallet() {
   const router = useRouter();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const provider = new ethers.BrowserProvider(window.ethereum);
     setProvider(provider);
     (async () => {
