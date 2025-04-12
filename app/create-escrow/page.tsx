@@ -32,41 +32,24 @@ export default function CreateEscrow() {
       return setError("The beneficiary cannot be the same as depositor");
     }
 
-    if (signer) {
+    if (signer && provider) {
       try {
         const contractFactory = new ethers.ContractFactory(abi, bytecode);
         const contractDeployTransaction = await contractFactory.getDeployTransaction(arbiter, beneficiary, {value: ethers.parseUnits(amount!.toString(), 'ether')});
         const populatedTx = await signer.populateTransaction(contractDeployTransaction);
         const tx = await signer.sendTransaction(populatedTx);
         const receipt = await tx.wait();
-        // const network = await provider?.getNetwork();
-
-        // const unsignedTx = new ethers.Transaction();
-        // unsignedTx.nonce = tx.nonce;
-        // unsignedTx.gasLimit = tx.gasLimit;
-        // unsignedTx.maxPriorityFeePerGas = tx.maxPriorityFeePerGas;
-        // unsignedTx.maxFeePerGas = tx.maxFeePerGas;
-        // unsignedTx.value = tx.value;
-        // unsignedTx.data = tx.data;
-        // unsignedTx.chainId = network!.chainId;
-        // unsignedTx.type = tx.type;
-        // unsignedTx.accessList = tx.accessList;
-
-        // const digest = unsignedTx.unsignedHash;
-        // const recoveredAddress = ethers.recoverAddress(digest, Signature.from(tx.signature));
-
-        // console.log(recoveredAddress === signer.address);
 
         await storeEscrowContract({
           arbiter: arbiter!.toString(),
-          address: receipt!.contractAddress ?? "",
+          address: receipt!.contractAddress??"",
           depositor: signer.address,
           beneficiary: beneficiary.toString(),
-          isMinted: tx.isMined(),
+          isMinted: false,
           isApproved: false,
         });
 
-
+        setError(null);
       } catch (err) {
         setError((err as Error).message);
         console.error(err);
