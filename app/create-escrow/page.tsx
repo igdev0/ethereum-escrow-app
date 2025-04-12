@@ -84,7 +84,7 @@ export default function CreateEscrow() {
           </fieldset>
           <fieldset>
             <label htmlFor="amount">
-              <span>Amount:</span>
+              <span>Amount (in ETH):</span>
               <input type="number" className="input" name="amount" placeholder="e.g: 0.1 (value in ETH)"
               />
             </label>
