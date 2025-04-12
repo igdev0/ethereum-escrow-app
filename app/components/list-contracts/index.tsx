@@ -3,18 +3,8 @@ import Address from '@/app/components/address';
 import Approve from '@/app/components/approve';
 import Link from 'next/link';
 import {ethers} from 'ethers';
+import {ContractDataType} from '@/app/store';
 
-export interface ContractDataType {
-  id: string;
-  address: string | null;
-  arbiter: string | null;
-  beneficiary: string | null;
-  depositor: string | null;
-  value: bigint;
-  isApproved: boolean;
-  created_at: Date | null;
-  updated_at: Date | null;
-}
 
 interface ListContractsProps extends PropsWithChildren {
   contracts: ContractDataType[];
