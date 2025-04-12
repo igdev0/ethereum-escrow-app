@@ -1,10 +1,12 @@
 "use client";
-import useWallet from '@/app/hooks/use-wallet';
 import {redirect} from 'next/navigation';
+import {useAppStore} from '@/app/stores/app';
+import useProvider from '@/app/hooks/use-provider';
 
 export default function Home() {
-  const {authenticate, authenticated} = useWallet();
-  if (authenticated) {
+  const provider = useProvider();
+  const {isAuthenticated, authenticate} = useAppStore();
+  if (isAuthenticated) {
     redirect("/view-contracts");
   }
   return (
@@ -12,7 +14,7 @@ export default function Home() {
         <div className="flex justify-center flex-col gap-2 text-center">
           <h1 className="text-5xl font-bold">Welcome to the Escrow dApp</h1>
           <p>Connect your wallet so you can continue</p>
-          <button className="button" onClick={authenticate}>Connect</button>
+          <button className="button" onClick={() => provider && authenticate(provider)}>Connect</button>
         </div>
       </div>
   );
