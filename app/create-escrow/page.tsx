@@ -16,7 +16,7 @@ export default function CreateEscrow() {
   const provider = useProvider();
   const iface = useInterface();
   const [error, setError] = useState<string | null>(null);
-  const createContract = useContractsStore().createContract
+  const createContract = useContractsStore().createContract;
 
   const handleSubmit = async (form: FormData) => {
     const signer = await provider?.getSigner();
@@ -46,7 +46,7 @@ export default function CreateEscrow() {
         const contractDeployTransaction = await contractFactory.getDeployTransaction(arbiter, beneficiary, {value: ethers.parseUnits(amount!.toString(), 'ether')});
         const populatedTx = await signer.populateTransaction(contractDeployTransaction);
         tx = await signer.sendTransaction(populatedTx);
-         receipt = await tx.wait();
+        receipt = await tx.wait();
 
         setError(null);
       } catch (err) {
@@ -68,7 +68,7 @@ export default function CreateEscrow() {
           isApproved: false,
         });
       } catch (err) {
-        setError((err as Error).message)
+        setError((err as Error).message);
       }
     }
   };
@@ -80,7 +80,7 @@ export default function CreateEscrow() {
           <fieldset>
             <label htmlFor="arbiter">
               <span>Arbiter:</span>
-              <input className="input" name="arbiter" placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097" defaultValue="0xdd2fd4581271e230360230f9337d5c0430bf44c0"
+              <input className="input" name="arbiter" placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"
               />
             </label>
           </fieldset>
@@ -88,7 +88,6 @@ export default function CreateEscrow() {
             <label htmlFor="beneficiary">
               <span>Beneficiary:</span>
               <input className="input" name="beneficiary"
-                     defaultValue="0x8e3b8A7Fe1B856A035C4557e92662E50a28B0dc6"
                      placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"
               />
             </label>
@@ -96,7 +95,7 @@ export default function CreateEscrow() {
           <fieldset>
             <label htmlFor="amount">
               <span>Amount (in ETH):</span>
-              <input type="number" className="input" name="amount" placeholder="e.g: 0.1 (value in ETH)" defaultValue="1"
+              <input type="number" className="input" name="amount" placeholder="e.g: 0.1 (value in ETH)"
               />
             </label>
           </fieldset>
