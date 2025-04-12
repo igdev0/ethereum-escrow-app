@@ -7,10 +7,12 @@ import {ethers} from 'ethers';
 import {abi, bytecode} from '../generated/contracts/Escrow.sol/Escrow.json';
 import {useState} from 'react';
 import {storeEscrowContract} from '@/app/actions';
+import useInterface from '@/app/hooks/use-interface';
 
 export default function CreateEscrow() {
   const status = useFormStatus();
   const {provider, address} = useWallet();
+  const iface = useInterface();
   const [error, setError] = useState<string | null>(null);
   const handleSubmit = async (form: FormData) => {
     const signer = await provider?.getSigner();
@@ -52,7 +54,8 @@ export default function CreateEscrow() {
 
         setError(null);
       } catch (err) {
-        setError((err as Error).message);
+        const parsed = iface.parseError((err as any).data);
+        setError(parsed?.args.toArray()[0]);
         console.error(err);
       }
     }
