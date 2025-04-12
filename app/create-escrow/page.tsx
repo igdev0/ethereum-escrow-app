@@ -46,7 +46,7 @@ export default function CreateEscrow() {
 
         await storeEscrowContract({
           arbiter: arbiter!.toString(),
-          address: receipt!.contractAddress??"",
+          address: receipt!.contractAddress ?? "",
           depositor: signer.address,
           beneficiary: beneficiary.toString(),
           value: Number(tx.value),
@@ -71,7 +71,7 @@ export default function CreateEscrow() {
             <label htmlFor="arbiter">
               <span>Arbiter:</span>
               <input className="input" name="arbiter" placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"
-                     defaultValue="0xdD2FD4581271e230360230F9337D5c0430Bf44C0"/>
+              />
             </label>
           </fieldset>
           <fieldset>
@@ -79,14 +79,14 @@ export default function CreateEscrow() {
               <span>Beneficiary:</span>
               <input className="input" name="beneficiary"
                      placeholder="e.g: 0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097"
-                     defaultValue="0xf31245fE30C2B0fA8c5C63d0a183BA179f7Ad172"/>
+              />
             </label>
           </fieldset>
           <fieldset>
             <label htmlFor="amount">
               <span>Amount:</span>
               <input type="number" className="input" name="amount" placeholder="e.g: 0.1 (value in ETH)"
-                     defaultValue="1"/>
+              />
             </label>
           </fieldset>
           {
