@@ -76,7 +76,7 @@ export default function CreateEscrow() {
       <div className="container mx-auto">
         <Navbar/>
         <form action={handleSubmit}>
-          <h1 className="text-4xl font-bold mb-4">Create new escrow contract </h1>
+          <h1 className="text-4xl font-bold mb-4">Deploy new contract</h1>
           <fieldset>
             <label htmlFor="arbiter">
               <span>Arbiter:</span>
