@@ -14,6 +14,6 @@
 .navlink {
   @apply px-4 py-2 font-bold bg-white rounded-sm transition-all text-black shadow-md;
   @variant hover {
-    @apply bg-amber-50;
+    @apply bg-amber-400 text-white;
   }
 }
