@@ -26,7 +26,7 @@ export default async function ListContracts({contracts}: ListContractsProps) {
         {
           contracts.length ? (
 
-                <table className="bg-white shadow-2xl rounded-sm">
+                <table className="bg-white shadow-2xl rounded-sm max-w-full">
                   <thead>
                   <tr>
                     <td className="font-bold p-2">Contract address</td>
