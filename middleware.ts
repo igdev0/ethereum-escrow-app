@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-const protectedRoutes = ['/view-contracts'];
+const protectedRoutes = ['/view-contracts', '/create-escrow'];
 
 export async function middleware(req: NextRequest) {
   const session = req.cookies.get('session');
